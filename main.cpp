@@ -116,8 +116,18 @@ int main(int argc, char* argv[])
     drawSomething(window, renderer);
     SDL_Texture* background = loadTexture("imgs/background.png", renderer);
     SDL_RenderCopy( renderer, background, NULL, NULL);
+    // SDL_Rect dest; 
+    // SDL_Rect src; 
+    // dest.x = 100; 
+    // dest.y = 100;
+    // dest.w = 100; 
+    // dest.h = 100; 
     // SDL_Texture* mario = loadTexture("imgs/mario_bg.png", renderer);
-    // SDL_RenderCopy( renderer, mario, NULL, NULL);
+    // SDL_QueryTexture(mario, NULL, NULL, &src.w, &src.h);
+    // std::cout << src.w << " " << src.h; 
+    // // double ratio = 0.5; 
+    // dest = {100, 100, 100, 100};
+    // SDL_RenderCopy( renderer, mario, NULL, &dest);
     // SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
     // SDL_QueryTexture(texture, NULL, NULL, &srcRect.w, &srcRect.h);
     // renderTexture(mario, 100, 200, renderer);
@@ -130,15 +140,15 @@ int main(int argc, char* argv[])
     SDL_Texture* mario = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);  
     SDL_Rect dest; 
-    SDL_Rect src; 
-    dest.x = 100; 
-    dest.y = 100;
-    dest.w = 500; 
-    dest.h = 500; 
-    SDL_QueryTexture(mario, NULL, NULL, &src.w, &src.h);
-    std::cout << src.w << " " << src.h; 
+    // SDL_Rect src; 
+    // dest.x = 100; 
+    // dest.y = 100;
+    // dest.w = 500; 
+    // dest.h = 500; 
+    // SDL_QueryTexture(mario, NULL, NULL, &src.w, &src.h);
+    // std::cout << src.w << " " << src.h; 
     // double ratio = 0.5; 
-    // dest = {100, 100, 100, 100};  
+    dest = {100, 100, 500, 500};  
     SDL_RenderCopy( renderer, mario, NULL, &dest);
 
     // Render texture lên màn hình
@@ -149,8 +159,8 @@ int main(int argc, char* argv[])
 
     //Đợi phím bất kỳ trước khi đóng môi trường đồ họa và kết thúc chương trình
     waitUntilKeyPressed();
-    SDL_DestroyTexture( background );
-    background = NULL;
+    // SDL_DestroyTexture( background );
+    // background = NULL;
 
     quitSDL(window, renderer);
     return 0;

@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
     drawSomething(window, renderer);
     SDL_Texture* background = loadTexture("imgs/background.png", renderer);
     SDL_RenderCopy( renderer, background, NULL, NULL);
-    // SDL_Rect dest; 
+    SDL_Rect dest; 
     // SDL_Rect src; 
     // dest.x = 100; 
     // dest.y = 100;

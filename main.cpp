@@ -2,11 +2,13 @@
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "graphic.h"
+#include "defs.h"
 using namespace std;
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const char* WINDOW_TITLE = "Hello World!";
+// const int SCREEN_WIDTH = 800;
+// const int SCREEN_HEIGHT = 600;
+// const char* WINDOW_TITLE = "Hello World!";
 
 void logErrorAndExit(const char* msg, const char* error)
 {
@@ -106,17 +108,34 @@ void renderTexture(SDL_Texture *texture, int x, int y,
 int main(int argc, char* argv[])
 {
     //Khởi tạo môi trường đồ họa
-    SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
-    SDL_Renderer* renderer = createRenderer(window);
+    // SDL_Window* window = initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+    // SDL_Renderer* renderer = createRenderer(window);
 
+    Graphic graphic;
+    graphic.initSDL(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     //Xóa màn hình
-    SDL_RenderClear(renderer);
+    //SDL_RenderClear(renderer);
+    SDL_Event e;
+    while (true) {
+        if ( SDL_PollEvent(&e) != 0 &&
+             (e.type == SDL_KEYDOWN || e.type == SDL_QUIT) )
+            break;
+        graphic.prepareSence();
+        // drawSomething(graphic.window, graphic.renderer);
+        SDL_Texture* mario = graphic.loadTexture("imgs/mario_bg.png");
+        int w, h;
+        SDL_QueryTexture(mario, NULL, NULL, &w, &h);
+        graphic.renderTexture(mario, 100, 100, w, h);
+        graphic.presentSence();    
+        SDL_Delay(100);
+    }
 
     //Vẽ gì đó
-    drawSomething(window, renderer);
-    SDL_Texture* background = loadTexture("imgs/background.png", renderer);
-    SDL_RenderCopy( renderer, background, NULL, NULL);
-    SDL_Rect dest; 
+   
+    
+    // SDL_Texture* background = loadTexture("imgs/background.png", renderer);
+    // SDL_RenderCopy( renderer, background, NULL, NULL);
+    // SDL_Rect dest; 
     // SDL_Rect src; 
     // dest.x = 100; 
     // dest.y = 100;
@@ -132,14 +151,14 @@ int main(int argc, char* argv[])
     // SDL_QueryTexture(texture, NULL, NULL, &srcRect.w, &srcRect.h);
     // renderTexture(mario, 100, 200, renderer);
     
-    SDL_Surface* surface = IMG_Load("imgs/marion_white_bg.png");
+    // SDL_Surface* surface = IMG_Load("imgs/marion_white_bg.png");
 
-    Uint32 colorkey = SDL_MapRGB(surface->format, 255, 255, 255); // Màu hồng thành trong suốt
-    SDL_SetColorKey(surface, SDL_TRUE, colorkey);
+    // Uint32 colorkey = SDL_MapRGB(surface->format, 255, 255, 255); // Màu hồng thành trong suốt
+    // SDL_SetColorKey(surface, SDL_TRUE, colorkey);
 
-    SDL_Texture* mario = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);  
-    SDL_Rect dest; 
+    // SDL_Texture* mario = SDL_CreateTextureFromSurface(renderer, surface);
+    // SDL_FreeSurface(surface);  
+    // SDL_Rect dest; 
     // SDL_Rect src; 
     // dest.x = 100; 
     // dest.y = 100;
@@ -148,21 +167,22 @@ int main(int argc, char* argv[])
     // SDL_QueryTexture(mario, NULL, NULL, &src.w, &src.h);
     // std::cout << src.w << " " << src.h; 
     // double ratio = 0.5; 
-    dest = {100, 100, 500, 500};  
-    SDL_RenderCopy( renderer, mario, NULL, &dest);
+    // dest = {100, 100, 500, 500};  
+    // SDL_RenderCopy( renderer, mario, NULL, &dest);
 
     // Render texture lên màn hình
     // SDL_RenderCopy(renderer, mario, NULL, NULL);
     
     //Hiện bản vẽ ra màn hình
-    SDL_RenderPresent(renderer);
-
+    //SDL_RenderPresent(renderer);
+    
+    
     //Đợi phím bất kỳ trước khi đóng môi trường đồ họa và kết thúc chương trình
-    waitUntilKeyPressed();
     // SDL_DestroyTexture( background );
     // background = NULL;
 
-    quitSDL(window, renderer);
+    //quitSDL(window, renderer);
+    graphic.quitSDL();
     return 0;
 }
 
